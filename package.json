@@ -1,0 +1,17 @@
+{
+  "name": "ecomerceapi",
+  "version": "1.0.0",
+  "description": "belajar membuat ecomerce api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ecomerce",
+    "expressjs",
+    "nodejs",
+    "javascript"
+  ],
+  "author": "fahmy fauzi",
+  "license": "ISC"
+}
