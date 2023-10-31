@@ -43,13 +43,22 @@ router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
 
 //get all products
 router.get("/", verifyTokenAndAdmin, async (req, res) => {
+  //tangkap query new
+  const qnew = req.query.new;
+  const qcategory = req.query.category;
   try {
-    //tangkap query new
-    const query = req.query.new;
-    //cari product berdasar id
-    const products = query
-      ? await Product.find().sort({ _id: -1 }).limit(5)
-      : await Product.find();
+    let products;
+    if (qnew) {
+      products = await Product.find().sort({ createdAt: -1 }).limit(5);
+    } else if (qcategory) {
+      products = await Product.find({
+        categories: {
+          $in: [qcategory],
+        },
+      });
+    } else {
+      products = Product.find();
+    }
     return res.status(200).json(products);
   } catch (err) {
     return res.status(500).json(err.message);
