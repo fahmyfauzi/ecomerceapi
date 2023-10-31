@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const authUser = require("./routes/authRoute");
 const userRoute = require("./routes/userRoute");
+const productRoute = require("./routes/productRoute");
 require("dotenv").config();
 
 //middleware json
@@ -13,6 +14,9 @@ app.use("/api/auth", authUser);
 
 //user route
 app.use("/api/users", userRoute);
+
+//product route
+app.use("/api/products", productRoute);
 
 //database connection
 mongoose
