@@ -30,4 +30,30 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
   }
 });
 
+//get user
+router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
+  try {
+    //cari user berdasar id
+    const user = await User.findById(req.params.id);
+    const { password, ...others } = user._doc;
+    return res.status(200).json(others);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
+router.get("/", verifyTokenAndAdmin, async (req, res) => {
+  try {
+    //tangkap query new
+    const query = req.query.new;
+    //cari user berdasar id
+    const user = query
+      ? await User.find().sort({ _id: -1 }).limit(5)
+      : await User.find();
+    return res.status(200).json(user);
+  } catch (err) {
+    return res.status(500).json(err);
+  }
+});
+
 module.exports = router;
