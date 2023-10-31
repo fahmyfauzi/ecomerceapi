@@ -31,7 +31,7 @@ router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
 });
 
 //get product detail
-router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
+router.get("/find/:id", async (req, res) => {
   try {
     //cari product berdasar id
     const product = await Product.findById(req.params.id);
@@ -42,7 +42,7 @@ router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
 });
 
 //get all products
-router.get("/", verifyTokenAndAdmin, async (req, res) => {
+router.get("/", async (req, res) => {
   //tangkap query new
   const qnew = req.query.new;
   const qcategory = req.query.category;
