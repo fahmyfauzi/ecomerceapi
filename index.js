@@ -18,6 +18,8 @@ app.use("/api/users", userRoute);
 //product route
 app.use("/api/products", productRoute);
 
+//cart route
+
 //database connection
 mongoose
   .connect(process.env.MONGO_URI)
