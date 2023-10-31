@@ -30,4 +30,19 @@ router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
+//get all products
+router.get("/", verifyTokenAndAdmin, async (req, res) => {
+  try {
+    //tangkap query new
+    const query = req.query.new;
+    //cari user berdasar id
+    const products = query
+      ? await Product.find().sort({ _id: -1 }).limit(5)
+      : await Product.find();
+    return res.status(200).json(products);
+  } catch (err) {
+    return res.status(500).json(err.message);
+  }
+});
+
 module.exports = router;
