@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const authUser = require("./routes/authRoute");
 const userRoute = require("./routes/userRoute");
 const productRoute = require("./routes/productRoute");
+const cartRoute = require("./routes/cartRoute");
 require("dotenv").config();
 
 //middleware json
@@ -19,6 +20,7 @@ app.use("/api/users", userRoute);
 app.use("/api/products", productRoute);
 
 //cart route
+app.use("/api/carts", cartRoute);
 
 //database connection
 mongoose

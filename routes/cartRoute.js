@@ -34,4 +34,33 @@ router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
   }
 });
 
+//delete
+router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
+  try {
+    await Cart.findByIdAndRemove(req.params.id);
+    return res.status(200).json("Cart has been deleted...");
+  } catch (err) {
+    return res.status(500).json(err.message);
+  }
+});
+
+//get user cart
+router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
+  try {
+    const cart = await Cart.findOne({ userId: req.params.userId });
+    return res.status(200).json(cart);
+  } catch (err) {
+    return res.status(500).json(err.message);
+  }
+});
+
+//get all cart
+router.get("/", verifyTokenAndAdmin, async (req, res) => {
+  try {
+    const carts = await Cart.find();
+    return res.status(200).json(carts);
+  } catch (err) {
+    return res.status(500).json(err.message);
+  }
+});
 module.exports = router;
