@@ -2,13 +2,17 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const authUser = require("./routes/authRoute");
+const userRoute = require("./routes/userRoute");
 require("dotenv").config();
 
 //middleware json
 app.use(express.json());
 
 //auth routes
-app.use("/api/users", authUser);
+app.use("/api/auth", authUser);
+
+//user route
+app.use("/api/users", userRoute);
 
 //database connection
 mongoose
