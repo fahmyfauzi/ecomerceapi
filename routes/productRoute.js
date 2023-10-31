@@ -56,4 +56,14 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
+//update product
+router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
+  try {
+    await Product.findByIdAndRemove(req.params.id);
+    return res.status(200).json("Product has been deleted...");
+  } catch (err) {
+    return res.status(500).json(err.message);
+  }
+});
+
 module.exports = router;
