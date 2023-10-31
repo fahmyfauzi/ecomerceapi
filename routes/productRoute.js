@@ -30,12 +30,23 @@ router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
   }
 });
 
+//get product detail
+router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
+  try {
+    //cari product berdasar id
+    const product = await Product.findById(req.params.id);
+    return res.status(200).json(product);
+  } catch (err) {
+    return res.status(500).json(err.message);
+  }
+});
+
 //get all products
 router.get("/", verifyTokenAndAdmin, async (req, res) => {
   try {
     //tangkap query new
     const query = req.query.new;
-    //cari user berdasar id
+    //cari product berdasar id
     const products = query
       ? await Product.find().sort({ _id: -1 }).limit(5)
       : await Product.find();
