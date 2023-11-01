@@ -17,7 +17,7 @@ const orderSchema = new mongoose.Schema(
         },
       },
     ],
-    ammount: {
+    amount: {
       type: Number,
       required: true,
     },

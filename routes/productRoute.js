@@ -57,7 +57,7 @@ router.get("/", async (req, res) => {
         },
       });
     } else {
-      products = Product.find();
+      products = await Product.find();
     }
     return res.status(200).json(products);
   } catch (err) {

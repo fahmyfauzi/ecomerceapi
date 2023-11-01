@@ -63,4 +63,39 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
     return res.status(500).json(err.message);
   }
 });
+
+//get monthly income
+router.get("/income", verifyTokenAndAdmin, async (req, res) => {
+  // Membuat objek Date yang mewakili tanggal saat ini.
+  const date = new Date();
+  // Mengambil tanggal satu bulan yang lalu dari saat ini.
+  const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
+  // Mengambil tanggal dua bulan yang lalu dari saat ini.
+  const previousMonth = new Date().setMonth(lastMonth.getMonth() - 1);
+
+  try {
+    // Menggunakan agregasi (aggregation) MongoDB untuk menghitung statistik pendapatan.
+    const income = await Order.aggregate([
+      // Tahap pertama: Memfilter pesanan yang dibuat dalam dua bulan terakhir.
+      { $match: { createadAt: { $gte: previousMonth } } },
+      // Tahap kedua: Mengubah data pesanan untuk proyeksi bulan pembuatan dan jumlah penjualan (amount).
+      {
+        $project: {
+          month: { $month: "$createdAt" },
+          sales: "$amount",
+        },
+      },
+      // Tahap ketiga: Mengelompokkan pesanan berdasarkan bulan pembuatan.
+      {
+        $group: {
+          _id: "$month",
+          total: { $sum: "$sales" },
+        },
+      },
+    ]);
+    return res.status(200).json(income);
+  } catch (err) {
+    return res.status(500).json(err.message);
+  }
+});
 module.exports = router;
